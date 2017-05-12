@@ -1,0 +1,12 @@
+RNPassthru is a test sketch that allows you to directly access either the
+RN2483 LoRaWAN module or the RN4871 Bluetooth module.
+
+From the top of the code, either comment out or leave uncommented the #define
+
+// For RN4871 have this define uncommented
+// For RN2483 comment this line.
+#define USE_BLE
+
+For further information on the commands to use, please see the user guides
+for each module.
+
