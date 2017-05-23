@@ -196,7 +196,7 @@ void loop() {
       const char tx_size = 8;
       char tx[tx_size];
       int decimal = (temperature - (int)temperature) * 100;
-      sprintf(tx, "%d.%2d", (int)temperature, decimal);
+      sprintf(tx, "%d.%02d", (int)temperature, decimal);
 
       Serial.println(tx);
       lora.macTxCmd(tx, strlen(tx), 1, TX_NOACK);         // Unconfirmed tx String
