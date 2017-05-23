@@ -52,7 +52,7 @@
 */
 
 #define APP_EUI "xxxxxxxxxxxxxxxx"
-#define APP_KEY "xxxxxxxxxxxxxxxx"
+#define APP_KEY "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 // For the breakout, you can use any 2 or 3 pins
 // These pins will also work for the 1.8" TFT shield
@@ -199,9 +199,9 @@ void setup() {
   // Remove this part if you are running on batteries as it will
   // hang here and not progress any further.
   // Waiting for the USB serial connection
-  //  while (!Serial) {
-  //    ;
-  //  }
+//  while (!Serial) {
+//    ;
+//  }
 
   // Initialise the OneWire sensor
   sensors.begin();
@@ -259,6 +259,12 @@ void setup() {
     err = lora.macSetDevAddrCmd(lora.sendRawCmdAndAnswer("mac get devaddr"));
     if (err != RN_OK) {
       Serial.println("\nFailed writing Dev Address");
+    }
+
+    Serial.println("Setting DR ...");
+    err = lora.macSetDataRate(0);
+    if (err != RN_OK) {
+      Serial.println("\nFailed setting DR");
     }
 
     Serial.println("Setting ADR ON ...");
