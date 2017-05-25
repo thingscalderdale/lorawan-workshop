@@ -99,17 +99,25 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 // TFT helper functions
-
+/** setScreen - Initialise the screen for displaying a new page
+    @param title - The screen title
+*/
 void setScreen( char *title ) {
   tft.fillScreen(ST7735_BLACK);
   tft.setTextColor(ST7735_CYAN, ST7735_BLACK);
   formatText(0, 0, 2, TEXT_CENTRED, title );
 }
 
-
+/** formatText - Basic formatted text output
+    @param x - X pixel position, starts from 0 on left hand side
+    @param y - Y pixel position, starts from 0 at top
+    @param textSize - 1-4 with 1 being smallest, 4 being largest
+    @param format - None, Centered, Left or Right justified. See defines for values
+    @param text - Char pointer to text to display. Must be 0 terminated
+*/
 void formatText( int x, int y, int textSize, int format, char *text ) {
   // format text on display
-  tft.setTextSize( textSize);
+  tft.setTextSize( textSize );
   int pixelsChar = 6;
   switch ( textSize ) {
     case 1:
@@ -167,6 +175,10 @@ uint8_t toDec( char *inBuf )
   return value;
 }
 
+/** hextToCharStr - Convert a input string of hex values to their binary/character representation
+   @param hex - The hex values in character buffer to convert. Must be 0 terminated
+   @param chrBuf - The output buffer pointer. Buffer must be big enough to hold outup
+*/
 void hexToCharStr( char *hex, char *chrBuf ) {
   char *respBuf = chrBuf;
 
@@ -174,11 +186,6 @@ void hexToCharStr( char *hex, char *chrBuf ) {
   char *bufPtr = hex;
   // Calc buff len, need to take off 2 for line endings (a bit of a hack!)
   int chrBufLen = min((strlen(hex) - 2) / 2, 63);
-  Serial.print("hex len ");
-  Serial.println(strlen(hex), DEC);
-  Serial.print("hexToCharStr ");
-  Serial.println(chrBufLen, DEC);
-
   for ( int i = 0; i < chrBufLen; i++ ) {
     respBuf[i] = toDec(bufPtr);
     bufPtr += 2;
@@ -196,12 +203,12 @@ void setup() {
   Serial.begin(115200);
 
   lora.begin();
-  // Remove this part if you are running on batteries as it will
-  // hang here and not progress any further.
   // Waiting for the USB serial connection
-//  while (!Serial) {
-//    ;
-//  }
+  if ( !isOnBattery() ) {
+    while (!Serial) {
+      ;
+    }
+  }
 
   // Initialise the OneWire sensor
   sensors.begin();
@@ -217,6 +224,7 @@ void setup() {
   //tft.initR(INITR_144GREENTAB);   // initialize a ST7735S chip, black tab
 
   tft.fillScreen(ST7735_BLACK);
+  // If we want to rotate screen then use the setRotation function
   // tft.setRotation(3);
 
   setScreen((char*)"Downlink");
@@ -362,6 +370,7 @@ void loop() {
       if (!joined) {
         Serial.println("\nOTA Network JOINED! ");
         joined = true;
+        tft.println("Network Joined");
       }
       // Sending String to the Lora Module towards the gateway
       tx_cnt++;
@@ -390,6 +399,8 @@ void loop() {
     } else {
       joined = false;
       lora.macJoinCmd(OTAA);
+      tft.println("Joining Network...");
+
       delay(100);
     }
     loop_cnt = 0;

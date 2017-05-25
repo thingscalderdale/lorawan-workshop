@@ -74,12 +74,12 @@ void setup() {
   Serial.begin(115200);
 
   lora.begin();
-  // Remove this part if you are running on batteries as it will
-  // hang here and not progress any further.
   // Waiting for the USB serial connection
-  //  while (!Serial) {
-  //    ;
-  //  }
+  if ( !isOnBattery() ) {
+    while (!Serial) {
+      ;
+    }
+  }
 
   // Initialise the OneWire sensor
   sensors.begin();
