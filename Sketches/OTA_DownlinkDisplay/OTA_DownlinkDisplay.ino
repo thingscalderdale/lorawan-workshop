@@ -36,8 +36,6 @@
 
 #include <Arduino.h>
 #include <rn2483.h>
-#include <OneWire.h>
-#include <DallasTemperature.h>
 #include <Adafruit_GFX.h>    // Core graphics library
 #include <Adafruit_ST7735.h> // Hardware-specific library
 #include <SPI.h>
@@ -88,15 +86,6 @@ unsigned char buff_size = 100;
 // 30000 is about 5 minutes;
 static long LOOP_PERIOD = 3000;
 static long loop_cnt = LOOP_PERIOD - 300;
-
-// Data pin is plugged into D4 on the Arduino/SmartEverything LION
-#define ONE_WIRE_BUS 4
-
-// Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
-OneWire oneWire(ONE_WIRE_BUS);
-
-// Pass our oneWire reference to Dallas Temperature.
-DallasTemperature sensors(&oneWire);
 
 // TFT helper functions
 /** setScreen - Initialise the screen for displaying a new page
@@ -204,14 +193,9 @@ void setup() {
 
   lora.begin();
   // Waiting for the USB serial connection
-  if ( !isOnBattery() ) {
-    while (!Serial) {
-      ;
-    }
+  while (!Serial) {
+    ;
   }
-
-  // Initialise the OneWire sensor
-  sensors.begin();
 
   //  delay(1000);
   //  Serial.print("FW Version :");
@@ -377,20 +361,8 @@ void loop() {
       if ( tx_cnt > 999 )
         tx_cnt = 0;
 
-      // call sensors.requestTemperatures() to issue a global temperature
-      // request to all devices on the bus
-      //      Serial.print("Requesting temperatures...");
-      //      sensors.requestTemperatures(); // Send the command to get temperatures
-      //      Serial.println("DONE");
-      // After we got the temperatures, we can print them here.
-      // We use the function ByIndex, and as an example get the temperature from the first sensor only.
-      //      Serial.print("Temperature for the device 1 (index 0) is: ");
-      //      float temperature = sensors.getTempCByIndex(0);
-      //      Serial.println(temperature);
       const char tx_size = 8;
       char tx[tx_size];
-      //      int decimal = (temperature - (int)temperature) * 100;
-      //      sprintf(tx, "%d.%2d", (int)temperature, decimal);
       sprintf(tx, "%d", tx_cnt);
 
       Serial.println(tx);

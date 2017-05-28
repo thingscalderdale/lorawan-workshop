@@ -45,7 +45,6 @@
 
 char c;
 char buff[100]  = {};
-int  len        = 0;
 unsigned char i = 0;
 
 unsigned char buff_size = 100;
@@ -75,10 +74,9 @@ void setup() {
 
   lora.begin();
   // Waiting for the USB serial connection
-  if ( !isOnBattery() ) {
-    while (!Serial) {
-      ;
-    }
+  // Comment out if running on batteries without serial connection
+  while (!Serial) {
+    ;
   }
 
   // Initialise the OneWire sensor

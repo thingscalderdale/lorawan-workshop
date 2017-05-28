@@ -4,7 +4,7 @@
    Workshop example to demonstrate OTA Join, sending temperature
    readings and handling downlink to change the state of the onboard LED.
 
-   Use TTN Console Downlink option 
+   Use TTN Console Downlink option
    Turn LED off: Send 00 to port 1
    Turn LED on:  Send 01 to port 1
 
@@ -49,7 +49,7 @@
 
 char c;
 char buff[100]  = {};
-int  len        = 0;
+//int  len        = 0;
 unsigned char i = 0;
 
 unsigned char buff_size = 100;
@@ -119,9 +119,9 @@ void setup() {
   // Remove this part if you are running on batteries as it will
   // hang here and not progress any further.
   // Waiting for the USB serial connection
-  //  while (!Serial) {
-  //    ;
-  //  }
+  while (!Serial) {
+    ;
+  }
 
   // Initialise the OneWire sensor
   sensors.begin();
@@ -228,7 +228,7 @@ void loop() {
       hexToCharStr(downPtr, downBuf);
 
       // If receive port is 1 then change set LED status
-      if( portNum == 1 ) 
+      if ( portNum == 1 )
         ledYellowTwoLight(downBuf[0] ? HIGH : LOW);
     }
   }

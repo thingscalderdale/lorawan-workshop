@@ -3,6 +3,7 @@
  LoRa RN2483 or BLE RN4871 module. Useful for testing the modules.
  Depending on option enabled, the correct baud rate is selected.
 
+ Extended to have GPS option
  Doesn't work correctly with the Arduino IDE Serial monitor, please use
  a terminal emulator, e.g. TeraTerm on Windows, Serial on OS X.
  
@@ -12,7 +13,10 @@
 
 // For RN4871 have this define uncommented
 // For RN2483 comment this line.
-#define USE_BLE
+//#define USE_BLE
+// To use GPS uncomment this line
+#define USE_GPS
+// Both lines commented out defaults to RN2483 LoRaWAN module
 
 #define usbSerial SerialUSB
 #define usbSerialBaud 115200
@@ -21,8 +25,13 @@
 #define rnSerial BLE
 #define rnSerialBaud 115200
 #else
+#ifdef USE_GPS
+#define rnSerial GPS
+#define rnSerialBaud 9600
+#else
 #define rnSerial iotAntenna
 #define rnSerialBaud 57600
+#endif
 #endif
 
 
