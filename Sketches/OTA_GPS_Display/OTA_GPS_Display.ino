@@ -51,8 +51,8 @@
     then OTAA procedure can start.
 */
 
-#define APP_EUI "70B3D57EF0004C61"
-#define APP_KEY "C16AFE1239E1276CC00AEC701CAF106A"
+#define APP_EUI "xxxxxxxxxxxxxxxx"
+#define APP_KEY "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 // For the breakout, you can use any 2 or 3 pins
 // These pins will also work for the 1.8" TFT shield
