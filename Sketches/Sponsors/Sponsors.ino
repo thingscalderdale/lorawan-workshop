@@ -60,14 +60,11 @@ typedef struct Slideshow {
 
 // Define our slides
 // PNG/JPG files converted to BMP after cropping using http://image.online-convert.com/convert-to-bmp
-#define NUM_SLIDES 6
+#define NUM_SLIDES 3
 Slideshow slideshow[NUM_SLIDES] = {
-  {"AB_Open.bmp",0,0},
-  {"CalderC.bmp",0,0},
-  {"IoTUK.bmp",16,0},
-  {"RS.bmp",16,0},
+  {"Bradford.bmp",0,0},
   {"TTN.bmp",0,0},
-  {"TC.bmp",16,30}
+  {"AB_Open.bmp",0,0}
 };
 
 void displaySlide( char* filename, int xPos, int yPos ) {
